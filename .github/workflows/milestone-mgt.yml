@@ -1,29 +1,34 @@
-name: Automated Milestone Management
+name: Milestone Tracking
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # Define your schedule (e.g., daily at midnight UTC)
+  issues:
+    types:
+      - closed
+  milestone:
+    types:
+      - opened
+      - edited
+      - deleted
 
 jobs:
-  milestone-management:
+  track_milestones:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check for Open Milestones
-        id: open_milestones
+      - name: Check Milestones
         run: |
-          # Your script to check for open milestones goes here
-          # Example: You can use GitHub CLI or API to fetch open milestones
+          # Your custom script or command to check and update milestones here
+          
+          # For example, you can use the GitHub API to fetch and update milestones.
+          # In this example, we'll simply echo a message as the "output."
 
-      - name: Create New Milestone
-        id: create_milestone
-        if: steps.open_milestones.outputs.open_milestones == 'false'
-        run: |
-          # Your script to create a new milestone goes here
-          # Example: You can use GitHub CLI or API to create a new milestone
+          echo "Milestone tracking script executed successfully."
 
-      - name: Close Old Milestones
-        id: close_milestones
+      - name: Set Output
+        id: output
+        run: echo "Milestone tracking completed."
+
+      - name: Display Output
         run: |
-          # Your script to close old milestones goes here
-          # Example: You can use GitHub CLI or API to close old milestones
+          echo "The milestone tracking workflow produced the following output:"
+          echo "${{ steps.output.outputs.output_message }}"
